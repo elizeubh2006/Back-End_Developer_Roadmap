@@ -107,7 +107,7 @@ startY = e.offsetY - originY;
 lastX = e.offsetX;
 lastY = e.offsetY;
 canvas.style.cursor = 'grabbing';
-cancelAnimationFrame(animationFrame);
+cancelAnimationFrame(animationFrame); // Parar a inércia ao clicar novamente
 });
 
 canvas.addEventListener('mousemove', function(e) {
@@ -134,12 +134,30 @@ canvas.style.cursor = 'grab';
 animateInertia();
 });
 
+canvas.addEventListener('wheel', function(e) {
+e.preventDefault();
+const zoomFactor = 1.1;
+const mouseX = e.offsetX;
+const mouseY = e.offsetY;
+const wheel = e.deltaY < 0 ? zoomFactor : 1 / zoomFactor;
+
+const newScale = scale * wheel;
+const dx = mouseX - originX;
+const dy = mouseY - originY;
+
+originX -= dx * (newScale / scale - 1);
+originY -= dy * (newScale / scale - 1);
+
+scale = newScale;
+drawImage();
+});
+
 function animateInertia() {
 if (Math.abs(velocityX) > 0.1 || Math.abs(velocityY) > 0.1) {
 originX += velocityX;
 originY += velocityY;
-velocityX *= 0.98;
-velocityY *= 0.98;
+velocityX *= 0.999;
+velocityY *= 0.999;
 drawImage();
 animationFrame = requestAnimationFrame(animateInertia);
 }
