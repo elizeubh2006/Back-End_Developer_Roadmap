@@ -64,6 +64,9 @@ let originX = 0;
 let originY = 0;
 let isDragging = false;
 let startX, startY;
+let velocityX = 0, velocityY = 0;
+let lastX, lastY;
+let animationFrame;
 
 image.onload = function() {
 canvas.width = image.width;
@@ -101,13 +104,20 @@ canvas.addEventListener('mousedown', function(e) {
 isDragging = true;
 startX = e.offsetX - originX;
 startY = e.offsetY - originY;
+lastX = e.offsetX;
+lastY = e.offsetY;
 canvas.style.cursor = 'grabbing';
+cancelAnimationFrame(animationFrame);
 });
 
 canvas.addEventListener('mousemove', function(e) {
 if (isDragging) {
 originX = e.offsetX - startX;
 originY = e.offsetY - startY;
+velocityX = e.offsetX - lastX;
+velocityY = e.offsetY - lastY;
+lastX = e.offsetX;
+lastY = e.offsetY;
 drawImage();
 }
 });
@@ -115,12 +125,25 @@ drawImage();
 canvas.addEventListener('mouseup', function() {
 isDragging = false;
 canvas.style.cursor = 'grab';
+animateInertia();
 });
 
 canvas.addEventListener('mouseleave', function() {
 isDragging = false;
 canvas.style.cursor = 'grab';
+animateInertia();
 });
+
+function animateInertia() {
+if (Math.abs(velocityX) > 0.1 || Math.abs(velocityY) > 0.1) {
+originX += velocityX;
+originY += velocityY;
+velocityX *= 0.98;
+velocityY *= 0.98;
+drawImage();
+animationFrame = requestAnimationFrame(animateInertia);
+}
+}
 });
 </script>
 </body>
