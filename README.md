@@ -1,5 +1,5 @@
 # Back-End Developer Roadmap 
-[English Version](https://github.com/elizeubh2006/Back-End_Developer_Roadmap/edit/main/README-en.md)
+[English Version](https://github.com/elizeubh2006/Back-End_Developer_Roadmap/blob/main/Readme-en.md)
 
 ## Descrição
 Este diagrama de roadmap foi criado para programadores iniciantes que desejam seguir pelo caminho de um Back-End Developer em .NET e aspiram se tornar arquitetos ou programadores seniors. O roadmap está ordenado por dependências e fases de um projeto, seguindo a lógica de escalonamento e abrangendo todos os possíveis cenários de desenvolvimento back-end.
